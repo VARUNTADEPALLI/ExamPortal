@@ -1,8 +1,11 @@
 package com.varun.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +52,7 @@ public class TestCrudController {
 		Optional<TestInfo> test= null;
 		try
 		{
-			 test=testservice.validateUser(id);
+			 test=testservice.getTestQuestionById(id);
 			 if(test==null)
 			 {
 				 throw new UserNotFoundException("User not found");
@@ -63,18 +66,27 @@ public class TestCrudController {
 	}
 	
 	
+	@GetMapping("/getAllTestQuestions")
+	public List<TestInfo> getUsers()
+	{
+		List<TestInfo> user=testservice.getAllTestQuestions();
+		
+		return user;
+	}
 	
-//	@PutMapping(value="updateTestDetails/{id}")
-//	public Optional<TestInfo> updateTestDetails(@PathVariable(value = "id") String id,@RequestBody TestInfo info)
-//	{
-//		Optional<TestInfo> test_info = itestrepository.findById(id);
-//		info.setId(id);
-//		test_info.setOption1(info.getOption1());
-//		test_info.setOption2(option2);
-//		test_info.setOption3(option3);
-//		test_info.setOption4(option4);
-//		testservice.removeTestDetails(info);
-//		return info;
-//		
-//	}
+	@PutMapping("/updateTestDetails")
+	public String updateDetails(@RequestBody TestInfo info)
+	{
+		String inf = testservice.updateTestQuestion(info);
+		
+        return inf;
+		
+		
+	}
+	
+	
+	
+	
+	
+
 }
